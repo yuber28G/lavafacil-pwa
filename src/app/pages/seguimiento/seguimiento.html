@@ -1,0 +1,43 @@
+<section class="seguimiento-container">
+  <div class="header">
+    <h2>🔍 Rastrea tu Pedido</h2>
+    <p>Consulta el estado de tu ropa ingresando el número de orden</p>
+  </div>
+
+  <form
+    (ngSubmit)="buscarPedido()"
+    #formPedido="ngForm"
+    class="seguimiento-form"
+  >
+    <input
+      type="number"
+      id="pedido"
+      name="pedido"
+      required
+      [(ngModel)]="numeroPedido"
+      placeholder="Número de pedido (Ej: 1000)"
+    />
+    <button type="submit" [disabled]="!numeroPedido">Consultar</button>
+  </form>
+
+  <div *ngIf="resultado" class="resultado-card">
+    <h3>📦 Pedido #{{ resultado.id }}</h3>
+    <p><strong>Cliente:</strong> {{ resultado.cliente }}</p>
+    <p><strong>Estado actual:</strong> {{ resultado.estado }}</p>
+
+    <div class="barra-progreso">
+      <div
+        class="progreso"
+        [ngClass]="{
+          'estado-en-proceso': resultado.estado === 'En proceso',
+          'estado-listo': resultado.estado === 'Listo',
+          'estado-entregado': resultado.estado === 'Entregado'
+        }"
+      ></div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error">
+    ⚠️ {{ error }}
+  </div>
+</section>
